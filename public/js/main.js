@@ -6,8 +6,8 @@ $(document).ready(function() {
 		'aoColumns': [
 			{'mData':'client_ticket'},
 			{'mData':'internal_ticket'},
-			{'mData':'severity_level'},
-			{'mData':'severity_desc'},
+			// {'mData':'severity_level'},
+			// {'mData':'severity_desc'},
 			{'mData':'summary'},
 			{'mData':'reporter'},
 			{'mData':'target'},

@@ -120,8 +120,8 @@ const getAllBugs = async (callback) => {
             listOfIssues.push({
               client_ticket: clientTicket, 
               internal_ticket: issue.key,
-              severity_level: sevLevel,
-              severity_desc: sevDesc,
+              // severity_level: sevLevel,
+              // severity_desc: sevDesc,
               summary: issue.fields.summary,
               reporter,
               target,
