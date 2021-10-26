@@ -17,4 +17,4 @@ async function loadIntoTable(url,table){
 
 }
 
-loadIntoTable('http://10.0.0.139:8000/bugs',document.querySelector('table'))
+loadIntoTable('https://jira-api-v2.herokuapp.com:3000/bugs',document.querySelector('table'))
