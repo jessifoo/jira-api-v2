@@ -23,7 +23,7 @@ router.get('/boards', (req, res) => {
 router.get('/bugs', (req, res) => {
 
   try {
-    jira.getAllBugsReadFormat((error, data) => {
+    jira.getAllBugs((error, data) => {
       if(error){
         return res.status(400).send(error)
       }

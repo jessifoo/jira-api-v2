@@ -3,13 +3,13 @@ const JiraClient  = require("jira-connector");
 // const credentials = require('../../credentials/credentials.json')
  
 const jira = new JiraClient({
-  host: process.env.JIRA_HOST,
-  // host: 'curatio.atlassian.net',
+  // host: process.env.JIRA_HOST,
+  host: 'curatio.atlassian.net',
   basic_auth: {
-    // email: 'bruno@curatio.me',
-    email: process.env.JIRA_EMAIL,
-    api_token: process.env.JIRA_API_TOKEN
-    // api_token: "puaXCrVZKMPpG2Pta5pu4A45"
+    email: 'bruno@curatio.me',
+    // email: process.env.JIRA_EMAIL,
+    // api_token: process.env.JIRA_API_TOKEN
+    api_token: "puaXCrVZKMPpG2Pta5pu4A45"
   }
 });
 
@@ -49,7 +49,7 @@ const getAllBugsReadFormat = async (callback) => {
 }
 
 // get all open issues on the bug board 
-// **** and key=NV-3717 
+// **** and key=ET-686
 const getAllBugs = async (callback) => {
   try {
     let listOfIssues = []
@@ -62,10 +62,14 @@ const getAllBugs = async (callback) => {
         issues.map(issue => {
 
             let clientTicket = undefined
-            if(issue.fields.issuelinks[0].outwardIssue == undefined){
-              clientTicket = 'not found'
-            } else {
-              clientTicket = issue.fields.issuelinks[0].outwardIssue.key
+            let clientIndex = 0
+
+            while (clientTicket == undefined) {
+              if(issue.fields.issuelinks[clientIndex].outwardIssue == undefined){
+                clientIndex++;
+              } else {
+                clientTicket = issue.fields.issuelinks[clientIndex].outwardIssue.key
+              } 
             }
 
             let version = undefined
@@ -100,7 +104,7 @@ const getAllBugs = async (callback) => {
             const created = date.toLocaleString('en-US', {
               day: 'numeric', // numeric, 2-digit
               year: 'numeric', // numeric, 2-digit
-              month: 'long' // numeric, 2-digit, long, short, narrow
+              month: 'numeric' // numeric, 2-digit, long, short, narrow
           });
 
             listOfIssues.push({
@@ -245,4 +249,4 @@ const getIssuesFromSprint = async (sprintId, callback) => {
   }
 }
 
-module.exports = { getAllBoards, getSprints, getIssuesFromSprint, getAllBugsReadFormat }
+module.exports = { getAllBoards, getSprints, getIssuesFromSprint, getAllBugs }
