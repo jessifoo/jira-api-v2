@@ -74,8 +74,9 @@ const getAllBugs = async (callback) => {
 
             let sevLevel = 'not assigned'
             let sevDesc = 'not assigned'
-            if(issue.fields.customfield_10812 == undefined){
+            if(issue.fields.customfield_10812 == null){
               sevLevel = 'not assigned'
+              sevDesc = 'not assigned'
             } else {
               sevLevel = issue.fields.customfield_10812.value.split('-')[0]
               sevDesc = issue.fields.customfield_10812.value.split('-')[1]
