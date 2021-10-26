@@ -1,11 +1,13 @@
 $(document).ready(function() {
 	$('#mydatatable').DataTable({
 		'deferRender':    true,
-		'ajax': './data.json',
+		'ajax': 'https://jira-api-v2.herokuapp.com/bugs',
 		"lengthMenu": [[10, 25, 50, 100, 200, 300, -1], [10, 25, 50, 100, 200, 300, "All"]],
 		'aoColumns': [
 			{'mData':'client_ticket'},
 			{'mData':'internal_ticket'},
+			{'mData':'severity_level'},
+			{'mData':'severity_desc'},
 			{'mData':'summary'},
 			{'mData':'reporter'},
 			{'mData':'target'},

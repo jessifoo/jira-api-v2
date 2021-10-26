@@ -72,6 +72,15 @@ const getAllBugs = async (callback) => {
               } 
             }
 
+            let sevLevel = 'not assigned'
+            let sevDesc = 'not assigned'
+            if(issue.fields.customfield_10812 == undefined){
+              sevLevel = 'not assigned'
+            } else {
+              sevLevel = issue.fields.customfield_10812.value.split('-')[0]
+              sevDesc = issue.fields.customfield_10812.value.split('-')[1]
+            }
+
             let version = undefined
             if(issue.fields.fixVersions[0] == undefined) {
               version = 'not assigned'
@@ -110,6 +119,8 @@ const getAllBugs = async (callback) => {
             listOfIssues.push({
               client_ticket: clientTicket, 
               internal_ticket: issue.key,
+              severity_level: sevLevel,
+              severity_desc: sevDesc,
               summary: issue.fields.summary,
               reporter,
               target,
