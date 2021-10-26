@@ -23,23 +23,7 @@ app.use(express.json());
 app.use(express.static(publicDirectoryPath))
 app.use(jiraRouter)
 
-// render index page
-app.get('', (req, res) => {
-  jira.getAllBoards((error, data) => {
-    if(error){
-      const error = error
-    }
-    res.render('index', {
-      title: 'Jira Cards',
-      name: 'Curatio',
-      todos: data,
-      sprint: false
-    })
-  })
-
-})
-
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is up on port ${port}`);
   
 })
