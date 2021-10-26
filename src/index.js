@@ -6,8 +6,8 @@ const bodyparser = require('body-parser');
 const jira = require('./utils/jira')
 
 const app = express()
-// const port = process.env.PORT
-const port = 8000
+const port = process.env.PORT
+// const port = 8000
 
 // Define paths for express config
 const publicDirectoryPath = path.join(__dirname, '../public')
