@@ -15,7 +15,27 @@ $(document).ready(function() {
 			{'mData':'status'},
 			{'mData':'version'},
 			{'mData':'created'}
-		]
+		],
+	    rowCallback: function (row, data) {
+
+			const status = data[7]
+			switch (status) {
+				case 'To Do': $('td:eq(2)', row).css('color', 'Gray');
+				break;
+				case 'In Progress': $('td:eq(2)', row).css('color', 'Blue');
+				break;
+				case 'Icebox': $('td:eq(2)', row).css('color', 'Cyan');
+				break;
+				case 'In Review': $('td:eq(2)', row).css('color', 'Yellow');
+				break;
+				case 'Done': $('td:eq(2)', row).css('color', 'Green');
+				break;
+				case 'Planning': $('td:eq(2)', row).css('color', 'Black');
+				break;
+				
+			}
+		 }
+	
 	});
 } );
 
