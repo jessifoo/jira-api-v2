@@ -1,10 +1,9 @@
 $(document).ready(function() {
-	const name = document.getElementById("helper").getAttribute("data-name");
-	console.log(name);
+	const page = document.getElementById("helper").getAttribute("target");
 
 	$('#mydatatable').DataTable({
 		'deferRender':    true,
-		'ajax': 'https://jira-api-v2.herokuapp.com/bugs',
+		'ajax': `https://jira-api-v2.herokuapp.com/bugs/${page}`,
 		// 'ajax': 'https://localhost:3000/bugs',
 		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		'aoColumns': [

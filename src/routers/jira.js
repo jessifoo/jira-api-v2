@@ -20,7 +20,23 @@ router.get('/boards', (req, res) => {
 })
 
 // read all bugs
-router.get('/bugs', (req, res) => {
+router.get('/bugs/:target', (req, res) => {
+
+  const target = req.params.target
+  const targetList = [
+    'Calquence',
+    'Curatio',
+    'Heart Life',
+    'MS121',
+    'Next Gen',
+    'SCD Arabic Female',
+    'SCD Arabic Male',
+    'SCD Europe',
+    'SCD India',
+    'SCD US',
+    'Stronger Together',
+    'Freedom Friend']
+
 
   try {
     jira.getAllBugs((error, data) => {
@@ -28,7 +44,10 @@ router.get('/bugs', (req, res) => {
         return res.status(400).send(error)
       }
 
-      res.status(200).send({data})
+      // return data based on target
+      const targetData = data.filter(issue => issue.target === targetList[target])
+
+      res.status(200).send({targetData})
     })
   } catch (error) {
     res.status(400).send(error)
