@@ -78,7 +78,9 @@ const getAllBugs = async (callback) => {
               sevLevel = 'not assigned'
             } else {
               sevLevel = issue.fields.customfield_10812.value
-              sevLevelCode = sevLevel.split('-')[0];
+              if(sevLevel != 'Not A Bug'){
+                sevLevelCode = sevLevel.split('-')[0];
+              }
             }
 
             let versionDesc = undefined
