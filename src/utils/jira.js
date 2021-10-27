@@ -79,18 +79,32 @@ const getAllBugs = async (callback) => {
               sevLevel = issue.fields.customfield_10812.value
             }
 
-            let version = undefined
+            let versionDesc = undefined
             if(issue.fields.fixVersions[0] == undefined) {
-              version = 'not assigned'
+              versionDesc = 'not assigned'
             } else {
-              version = issue.fields.fixVersions[0].name
+              const versions = issue.fields.fixVersions
+              versions.forEach(varsion => {
+                if (versionDesc == null){
+                  versionDesc = varsion.name
+                } else {
+                  versionDesc = versionDesc + ', ' + varsion.name
+                }
+              })
             }
 
-            let target = null
+            let targetDesc = null
             if(issue.fields.customfield_10859 === null){
-              target = 'not assigned'
+              targetDesc = 'not assigned'
             } else {
-              target = issue.fields.customfield_10859[0].value
+              const targets = issue.fields.customfield_10859
+              targets.forEach(target => {
+                if (targetDesc == null){
+                  targetDesc = target.value
+                } else {
+                  targetDesc = targetDesc + ', ' + target.value
+                }
+              })
             }
 
             let component = undefined
@@ -120,10 +134,10 @@ const getAllBugs = async (callback) => {
               severity_level: sevLevel,
               summary: issue.fields.summary,
               reporter,
-              target,
+              target: targetDesc,
               component,
               status: issue.fields.status.name,
-              version,
+              version: versionDesc,
               created
             })
         })

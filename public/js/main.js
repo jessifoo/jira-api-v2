@@ -5,8 +5,14 @@ $(document).ready(function() {
 		// 'ajax': 'https://localhost:3000/bugs',
 		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		'aoColumns': [
-			{'mData':'client_ticket'},
-			{'mData':'internal_ticket'},
+			{'mData':'client_ticket',
+			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				$(nTd).html(`<a href="https://curatio.atlassian.net/browse/${oData.client_ticket}" target="_blank">${oData.client_ticket}</a>`);
+			}},
+			{'mData':'internal_ticket',
+			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				$(nTd).html(`<a href="https://curatio.atlassian.net/browse/${oData.internal_ticket}" target="_blank">${oData.internal_ticket}</a>`);
+			}},
 			{'mData':'severity_level'},
 			{'mData':'summary'},
 			{'mData':'reporter'},
@@ -17,25 +23,22 @@ $(document).ready(function() {
 			{'mData':'created'}
 		],
 	    rowCallback: function (row, data) {
-
-			const status = data[7]
+			const status = data.status
 			switch (status) {
-				case 'To Do': $('td:eq(2)', row).css('color', 'Gray');
+				case 'To Do': $('td:eq(7)', row).addClass("btn-secondary");
 				break;
-				case 'In Progress': $('td:eq(2)', row).css('color', 'Blue');
+				case 'In Progress': $('td:eq(7)', row).addClass("btn-primary");
 				break;
-				case 'Icebox': $('td:eq(2)', row).css('color', 'Cyan');
+				case 'Icebox': $('td:eq(7)', row).addClass("btn-info");
 				break;
-				case 'In Review': $('td:eq(2)', row).css('color', 'Yellow');
+				case 'In Review': $('td:eq(7)', row).addClass("btn-warning");
 				break;
-				case 'Done': $('td:eq(2)', row).css('color', 'Green');
+				case 'Done': $('td:eq(7)', row).addClass("btn-success");
 				break;
-				case 'Planning': $('td:eq(2)', row).css('color', 'Black');
+				case 'Planning': $('td:eq(7)', row).addClass("btn-dark");
 				break;
-				
 			}
 		 }
-	
 	});
 } );
 
