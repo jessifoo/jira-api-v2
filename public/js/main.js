@@ -3,7 +3,7 @@ $(document).ready(function() {
 
 	$('#mydatatable').DataTable({
 		'deferRender':    true,
-		'ajax': `https://jira-api-v2.herokuapp.com/bugs`,
+		'ajax': `https://jira-api-v2.herokuapp.com/bugs/page`,
 		// 'ajax': 'https://localhost:3000/bugs',
 		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		'aoColumns': [
