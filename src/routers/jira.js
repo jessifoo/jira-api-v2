@@ -20,7 +20,7 @@ router.get('/boards', (req, res) => {
 })
 
 // read all bugs
-router.get('/bugs', (req, res) => {
+router.get('/bugs/:target', (req, res) => {
 
   const target = req.params.target
   const targetList = [
@@ -39,10 +39,13 @@ router.get('/bugs', (req, res) => {
 
 
   try {
-    jira.getAllBugs((error, data) => {
+    jira.getAllBugs((error, result) => {
       if(error){
         return res.status(400).send(error)
       }
+
+      // return data based on target
+      const data = result.filter(issue => issue.target === targetList[target])
 
       res.status(200).send({data})
     })
