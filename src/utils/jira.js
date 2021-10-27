@@ -73,10 +73,12 @@ const getAllBugs = async (callback) => {
             }
 
             let sevLevel = 'not assigned'
+            let sevLevelCode = 0
             if(issue.fields.customfield_10812 == null){
               sevLevel = 'not assigned'
             } else {
               sevLevel = issue.fields.customfield_10812.value
+              sevLevelCode = sevLevel.split('-')[0];
             }
 
             let versionDesc = undefined
@@ -122,6 +124,7 @@ const getAllBugs = async (callback) => {
 
             // date bug was created
             const date = new Date(issue.fields.created);
+            console.log(`sum date => ${date.addDays(7)}, Sev level code ${sevLevelCode}`);
             const created = date.toLocaleString('en-US', {
               day: 'numeric', // numeric, 2-digit
               year: 'numeric', // numeric, 2-digit

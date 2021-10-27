@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	const name = document.getElementById("helper").getAttribute("data-name");
+	console.log(name);
+
 	$('#mydatatable').DataTable({
 		'deferRender':    true,
 		'ajax': 'https://jira-api-v2.herokuapp.com/bugs',
