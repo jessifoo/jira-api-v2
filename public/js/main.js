@@ -42,6 +42,12 @@ $(document).ready(function() {
 				case 'Planning': $('td:eq(7)', row).addClass("btn-dark");
 				break;
 			}
+
+			const fixDate = new Date(data.fixDate)
+			const date = new Date()
+			if(date > fixDate && status != 'Done'){
+				$('td:eq(7)', row).addClass("btn-danger");
+			}
 		 }
 	});
 } );
