@@ -79,7 +79,7 @@ const getAllBugs = async (callback) => {
             } else {
               sevLevel = issue.fields.customfield_10812.value
               if(sevLevel != 'Not A Bug'){
-                sevLevelCode = sevLevel.split('-')[0];
+                // sevLevelCode = sevLevel.split('-')[0];
               }
             }
 
