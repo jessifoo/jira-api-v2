@@ -20,7 +20,7 @@ router.get('/boards', (req, res) => {
 })
 
 // read all bugs
-router.get('/bugs/:target', (req, res) => {
+router.get('/bugs', (req, res) => {
 
   const target = req.params.target
   const targetList = [
@@ -43,9 +43,6 @@ router.get('/bugs/:target', (req, res) => {
       if(error){
         return res.status(400).send(error)
       }
-
-      // return data based on target
-      // const targetData = data.data.filter(issue => issue.target === targetList[target])
 
       res.status(200).send({data})
     })
