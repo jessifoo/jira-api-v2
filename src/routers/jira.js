@@ -46,7 +46,7 @@ router.get('/bugs/:target', (req, res) => {
       }
 
       // return data based on target
-      const data = result.filter(issue => issue.target === targetList[target] && issue.target === 'All targets')
+      const data = result.filter(issue => issue.target === targetList[target] || issue.target === 'All targets')
 
       res.status(200).send({data})
     })
