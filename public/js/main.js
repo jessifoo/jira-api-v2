@@ -46,7 +46,7 @@ $(document).ready(function() {
 			const fixDate = new Date(data.fixDate)
 			const date = new Date()
 			if(date > fixDate && status != 'Done'){
-				$('td:eq(7)', row).addClass("btn-danger");
+				$('td:eq(10)', row).addClass("btn-danger");
 			}
 		 }
 	});
