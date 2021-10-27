@@ -35,7 +35,8 @@ router.get('/bugs/:target', (req, res) => {
     'SCD India',
     'SCD US',
     'Stronger Together',
-    'Freedom Friend']
+    'Freedom Friend',
+    'Webapp']
 
 
   try {
@@ -45,7 +46,7 @@ router.get('/bugs/:target', (req, res) => {
       }
 
       // return data based on target
-      const data = result.filter(issue => issue.target === targetList[target])
+      const data = result.filter(issue => issue.target === targetList[target] && issue.target === 'All targets')
 
       res.status(200).send({data})
     })

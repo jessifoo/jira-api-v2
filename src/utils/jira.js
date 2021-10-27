@@ -103,9 +103,20 @@ const getAllBugs = async (callback) => {
               })
             }
 
+            let component = undefined
+            if(issue.fields.components[0] === undefined){
+              component = 'not assigned'
+            } else {
+              component = issue.fields.components[0].name
+            }
+
             let targetDesc = null
             if(issue.fields.customfield_10859 === null){
-              targetDesc = 'not assigned'
+              if(component == 'Webapp'){
+                targetDesc = component
+              } else {
+                targetDesc = 'not assigned'
+              }
             } else {
               const targets = issue.fields.customfield_10859
               targets.forEach(target => {
@@ -115,13 +126,6 @@ const getAllBugs = async (callback) => {
                   targetDesc = targetDesc + ', ' + target.value
                 }
               })
-            }
-
-            let component = undefined
-            if(issue.fields.components[0] === undefined){
-              component = 'not assigned'
-            } else {
-              component = issue.fields.components[0].name
             }
 
             // get bug reporter
