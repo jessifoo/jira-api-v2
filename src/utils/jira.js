@@ -13,6 +13,12 @@ const jira = new JiraClient({
   }
 });
 
+// adding function to Date
+Date.prototype.addDays = function (days) {
+  const date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
 
 const getAllBugsReadFormat = async (callback) => {
   try {
@@ -126,12 +132,39 @@ const getAllBugs = async (callback) => {
 
             // date bug was created
             const date = new Date(issue.fields.created);
-            console.log(`Sev level code ${sevLevelCode}`);
             const created = date.toLocaleString('en-US', {
               day: 'numeric', // numeric, 2-digit
               year: 'numeric', // numeric, 2-digit
               month: 'numeric' // numeric, 2-digit, long, short, narrow
-          });
+            });
+
+            // fix date base on the create date and severity level
+            let fixDate = ''
+            switch (sevLevelCode){
+              case '1': fixDate = date.addDays(7).toLocaleString('en-US', {
+                day: 'numeric', // numeric, 2-digit
+                year: 'numeric', // numeric, 2-digit
+                month: 'numeric' // numeric, 2-digit, long, short, narrow
+              })
+              break;
+              case '2': fixDate = date.addDays(15).toLocaleString('en-US', {
+                day: 'numeric', // numeric, 2-digit
+                year: 'numeric', // numeric, 2-digit
+                month: 'numeric' // numeric, 2-digit, long, short, narrow
+              })
+              break;
+              case '3': fixDate = date.addDays(30).toLocaleString('en-US', {
+                day: 'numeric', // numeric, 2-digit
+                year: 'numeric', // numeric, 2-digit
+                month: 'numeric' // numeric, 2-digit, long, short, narrow
+              })
+              break;
+              case '4': fixDate = ''
+              break;
+              case '5': fixDate = ''
+              break;
+            }
+
 
             listOfIssues.push({
               client_ticket: clientTicket, 
@@ -143,7 +176,8 @@ const getAllBugs = async (callback) => {
               component,
               status: issue.fields.status.name,
               version: versionDesc,
-              created
+              created,
+              fixDate
             })
         })
       callback(undefined, listOfIssues)

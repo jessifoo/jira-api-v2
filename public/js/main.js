@@ -23,7 +23,8 @@ $(document).ready(function() {
 			{'mData':'component'},
 			{'mData':'status'},
 			{'mData':'version'},
-			{'mData':'created'}
+			{'mData':'created'},
+			{'mData':'fixDate'}
 		],
 	    rowCallback: function (row, data) {
 			const status = data.status
