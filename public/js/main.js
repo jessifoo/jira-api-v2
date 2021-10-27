@@ -2,12 +2,12 @@ $(document).ready(function() {
 	$('#mydatatable').DataTable({
 		'deferRender':    true,
 		'ajax': 'https://jira-api-v2.herokuapp.com/bugs',
+		// 'ajax': 'https://localhost:3000/bugs',
 		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		'aoColumns': [
 			{'mData':'client_ticket'},
 			{'mData':'internal_ticket'},
-			// {'mData':'severity_level'},
-			// {'mData':'severity_desc'},
+			{'mData':'severity_level'},
 			{'mData':'summary'},
 			{'mData':'reporter'},
 			{'mData':'target'},
