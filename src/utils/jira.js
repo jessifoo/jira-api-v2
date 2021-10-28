@@ -55,13 +55,13 @@ const getAllBugsReadFormat = async (callback) => {
 }
 
 // get all open issues on the bug board 
-// **** and key=ET-686
-const getAllBugs = async (callback) => {
+// **** and key=NV-3321
+const getAllBugs = async (target, callback) => {
   try {
     let listOfIssues = []
     jira.search.search({
-        jql: `project in (Dynamo,"Growth Team","Infrastructure & Support","Web Dev") and type = Bug and creator = "Deep Clone for Jira" ORDER BY created DESC`,
-        maxResults: 800
+        jql: `project in (Dynamo,"Growth Team","Infrastructure & Support","Web Dev") and "Target[Select List (multiple choices)]" IN (${target}) and type = Bug and creator = "Deep Clone for Jira" ORDER BY created DESC`,
+        maxResults: 1000
     }, (error, result)  => {
         if (error) throw error;         
         const issues = result.issues;                  
@@ -168,7 +168,6 @@ const getAllBugs = async (callback) => {
               case '5': fixDate = ''
               break;
             }
-
 
             listOfIssues.push({
               client_ticket: clientTicket, 

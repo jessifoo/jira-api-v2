@@ -40,13 +40,13 @@ router.get('/bugs/:target', (req, res) => {
 
 
   try {
-    jira.getAllBugs((error, result) => {
+    jira.getAllBugs(targetList[target],(error, result) => {
       if(error){
         return res.status(400).send(error)
       }
 
       // return data based on target
-      const data = result.filter(issue => issue.target === targetList[target] || issue.target === 'All targets')
+      const data = result.filter(issue => issue.target.includes(targetList[target]) || issue.target === 'All targets')
 
       res.status(200).send({data})
     })
