@@ -60,7 +60,7 @@ const getAllBugs = async (target, callback) => {
   try {
     let listOfIssues = []
     jira.search.search({
-        jql: `project in (Dynamo,"Growth Team","Web Dev","Feature Team") and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and creator = "Deep Clone for Jira" ORDER BY created DESC`,
+        jql: `project in ("Web Dev","Feature Team",SUP2) and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and creator = "Deep Clone for Jira" ORDER BY created DESC`,
         maxResults: 1000
     }, (error, result)  => {
         if (error) throw error;         
