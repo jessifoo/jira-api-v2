@@ -60,16 +60,24 @@ const getAllBugs = async (target, callback) => {
   try {
     let listOfIssues = []
     jira.search.search({
-        jql: `project in ("Web Dev","Feature Team",SUP2) and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and creator = "Deep Clone for Jira" ORDER BY created DESC`,
+        jql: `project in ("Web Dev","Feature Team",SUP2) and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and (creator = "Deep Clone for Jira" or "Reference Ticket Number[Labels]" is not EMPTY) ORDER BY created DESC`,
         maxResults: 1000
     }, (error, result)  => {
         if (error) throw error;         
         const issues = result.issues;                  
         issues.map(issue => {
 
+            // Get client Ticket number
+            // - if the ticket was cloned then we get it from the clone linked issue 
+            // - if the ticket was moved then we get from the custom field Reference Ticket Number
+            
             let clientTicket = undefined
             let clientIndex = 0
 
+            if(issue.fields.customfield_10873 !== null){
+              clientTicket = issue.fields.customfield_10873[0] // Reference Ticket Number ( Custom Field Locator )
+            }
+            
             while (clientTicket == undefined) {
               if(issue.fields.issuelinks[clientIndex].outwardIssue == undefined){
                 clientIndex++;
@@ -78,17 +86,17 @@ const getAllBugs = async (target, callback) => {
               } 
             }
 
+            // Severity Level
             let sevLevel = 'not assigned'
             let sevLevelCode = 0
-            if(issue.fields.customfield_10812 == null){
-              sevLevel = 'not assigned'
-            } else {
+            if(issue.fields.customfield_10812 !== null){
               sevLevel = issue.fields.customfield_10812.value
               if(sevLevel != 'Not A Bug'){
                 sevLevelCode = sevLevel.split('-')[0];
               }
             }
 
+            // Version
             let versionDesc = undefined
             if(issue.fields.fixVersions[0] == undefined) {
               versionDesc = 'not assigned'
@@ -103,6 +111,7 @@ const getAllBugs = async (target, callback) => {
               })
             }
 
+            // Component
             let component = undefined
             if(issue.fields.components[0] === undefined){
               component = 'not assigned'
@@ -110,6 +119,7 @@ const getAllBugs = async (target, callback) => {
               component = issue.fields.components[0].name
             }
 
+            // Get taget that issue belongs to
             let targetDesc = null
             if(issue.fields.customfield_10859 === null){
               if(component == 'Webapp'){
@@ -142,7 +152,7 @@ const getAllBugs = async (target, callback) => {
               month: 'numeric' // numeric, 2-digit, long, short, narrow
             });
 
-            // fix date base on the create date and severity level
+            // fix date based on the create date and severity level
             let fixDate = ''
             switch (sevLevelCode){
               case '1': fixDate = date.addDays(7).toLocaleString('en-US', {
