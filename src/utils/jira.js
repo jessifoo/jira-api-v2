@@ -4,12 +4,9 @@ const JiraClient  = require("jira-connector");
  
 const jira = new JiraClient({
   host: process.env.JIRA_HOST,
-  // host: 'curatio.atlassian.net',
   basic_auth: {
-    // email: 'bruno@curatio.me',
     email: process.env.JIRA_EMAIL,
     api_token: process.env.JIRA_API_TOKEN
-    // api_token: "puaXCrVZKMPpG2Pta5pu4A45"
   }
 });
 
