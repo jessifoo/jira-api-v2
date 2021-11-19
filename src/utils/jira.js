@@ -316,4 +316,4 @@ const getSprints = async (boardId, state, callback) => {
 //   }
 // }
 
-module.exports = { getAllBoards, getSprints, getAllBugs, readJiraCards }
+module.exports = { getAllBoards, getSprints, getAllBugs }
