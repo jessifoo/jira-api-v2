@@ -76,9 +76,9 @@ const getAllBugs = async (target, callback) => {
               clientTicket = issue.fields.customfield_10873[0] // Reference Ticket Number ( Custom Field Locator )
             }
             
-            // if ticket doesn't have reference ticket number and it is clone by another card 
-            // we get from the clone the referenc ticket number.
-            while (clientTicket == undefined && issue.fields.issuelinks.length > 0) {
+            // if ticket doesn't have reference ticket number and it is cloned by another card 
+            // we get from the clone the reference ticket number.
+            while (clientTicket == undefined && issue.fields.issuelinks.length > 0 && issue.fields.issuelinks[clientIndex].outwardIssue != undefined) {
               if(issue.fields.issuelinks[clientIndex].outwardIssue == undefined){
                 clientIndex++;
               } else {
