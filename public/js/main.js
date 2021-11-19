@@ -7,10 +7,7 @@ $(document).ready(function() {
 		// 'ajax': 'https://localhost:3000/bugs',
 		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		'aoColumns': [
-			{'mData':'client_ticket',
-			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-				$(nTd).html(`<a href="https://curatio.atlassian.net/browse/${oData.client_ticket}" target="_blank">${oData.client_ticket}</a>`);
-			}},
+			{'mData':'client_ticket'},
 			{'mData':'internal_ticket',
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 				$(nTd).html(`<a href="https://curatio.atlassian.net/browse/${oData.internal_ticket}" target="_blank">${oData.internal_ticket}</a>`);

@@ -1,6 +1,4 @@
-const fetch       = require('node-fetch');
 const JiraClient  = require("jira-connector");
-// const credentials = require('../../credentials/credentials.json')
  
 const jira = new JiraClient({
   host: process.env.JIRA_HOST,
@@ -71,6 +69,8 @@ const getAllBugs = async (target, callback) => {
             let clientTicket = undefined
             let clientIndex = 0
 
+            console.log(issue.key);
+              
             if(issue.fields.customfield_10873 !== null){
               clientTicket = issue.fields.customfield_10873[0] // Reference Ticket Number ( Custom Field Locator )
             }
@@ -170,10 +170,6 @@ const getAllBugs = async (target, callback) => {
                 month: 'numeric' // numeric, 2-digit, long, short, narrow
               })
               break;
-              case '4': fixDate = ''
-              break;
-              case '5': fixDate = ''
-              break;
             }
 
             listOfIssues.push({
@@ -237,87 +233,87 @@ const getSprints = async (boardId, state, callback) => {
  
 }
 
-// get all issues from sprint
-const getIssuesFromSprint = async (sprintId, callback) => {
-  try {
-    const allIssues = await jira.sprint.getSprintIssues({sprintId, maxResults: 300})
+// // get all issues from sprint
+// const getIssuesFromSprint = async (sprintId, callback) => {
+//   try {
+//     const allIssues = await jira.sprint.getSprintIssues({sprintId, maxResults: 300})
     
-    let assigneeComponent = []
-    assigneeComponent['Alireza Kamali'] = 'iOS'
-    assigneeComponent['Javad Hatami'] = 'Android'
-    assigneeComponent['Josue Cabrera'] = 'iOS'
-    assigneeComponent['Mehrdad Faraji'] = 'iOS'
-    assigneeComponent['Mohammad Feyzian'] = 'Android'
-    assigneeComponent['Mostafa Davodi'] = 'iOS'
-    assigneeComponent['Rostislav Chekan'] = 'Android'
-    assigneeComponent['Samad Kardan'] = 'Backend'
-    assigneeComponent['Vahid Kardan'] = 'Backend'
-    assigneeComponent['Hamza Yousaf'] = 'Android'
-    assigneeComponent['Hafiz Faraz Tariq'] = 'Android'
-    assigneeComponent['Kaden Kim'] = 'iOS'
-    assigneeComponent['Darshan Parikh'] = 'Android'
-    assigneeComponent['Christina Lee'] = 'UX/UI'
-    assigneeComponent['Daniela de Oliveira'] = 'UX/UI'
+//     let assigneeComponent = []
+//     assigneeComponent['Alireza Kamali'] = 'iOS'
+//     assigneeComponent['Javad Hatami'] = 'Android'
+//     assigneeComponent['Josue Cabrera'] = 'iOS'
+//     assigneeComponent['Mehrdad Faraji'] = 'iOS'
+//     assigneeComponent['Mohammad Feyzian'] = 'Android'
+//     assigneeComponent['Mostafa Davodi'] = 'iOS'
+//     assigneeComponent['Rostislav Chekan'] = 'Android'
+//     assigneeComponent['Samad Kardan'] = 'Backend'
+//     assigneeComponent['Vahid Kardan'] = 'Backend'
+//     assigneeComponent['Hamza Yousaf'] = 'Android'
+//     assigneeComponent['Hafiz Faraz Tariq'] = 'Android'
+//     assigneeComponent['Kaden Kim'] = 'iOS'
+//     assigneeComponent['Darshan Parikh'] = 'Android'
+//     assigneeComponent['Christina Lee'] = 'UX/UI'
+//     assigneeComponent['Daniela de Oliveira'] = 'UX/UI'
     
-    const issues = []
-    const users = []
-    const forLoop = async _ => {
-      for (let index = 0; index < allIssues.issues.length; index++) {
-        const issue = allIssues.issues[index]
+//     const issues = []
+//     const users = []
+//     const forLoop = async _ => {
+//       for (let index = 0; index < allIssues.issues.length; index++) {
+//         const issue = allIssues.issues[index]
         
-        const assignee = issue.fields.assignee === null ? 'not assigned' : issue.fields.assignee.displayName;
+//         const assignee = issue.fields.assignee === null ? 'not assigned' : issue.fields.assignee.displayName;
 
-        // component assigned by assignee
-        let component = assigneeComponent[assignee]
+//         // component assigned by assignee
+//         let component = assigneeComponent[assignee]
 
-        const severity = issue.fields.customfield_10812 === null ? 'not assigned' : issue.fields.customfield_10812.value
-        const sprints  = issue.fields.customfield_10122.map( sprint => {
-          return {
-            id: sprint.id,
-            name: sprint.name
-          };
-        })
+//         const severity = issue.fields.customfield_10812 === null ? 'not assigned' : issue.fields.customfield_10812.value
+//         const sprints  = issue.fields.customfield_10122.map( sprint => {
+//           return {
+//             id: sprint.id,
+//             name: sprint.name
+//           };
+//         })
 
-        // const labels = issue.fields.labels;
+//         // const labels = issue.fields.labels;
 
-        const labels = issue.fields.labels.filter(label => label.includes('Reviewed'));
-        const status = issue.fields.status.name;
+//         const labels = issue.fields.labels.filter(label => label.includes('Reviewed'));
+//         const status = issue.fields.status.name;
 
-        if(status === 'Done' && labels.length === 0) {
-          labels.push('Reviewed')
-        }
+//         if(status === 'Done' && labels.length === 0) {
+//           labels.push('Reviewed')
+//         }
 
-        issues.push({
-          type: issue.fields.issuetype.name,
-          key: issue.key,
-          description: issue.fields.description,
-          summary: issue.fields.summary,
-          assignee: assignee,
-          status: status,
-          component: component,
-          commit: issue.fields.customfield_10000.includes('pullrequest') ? true : false,
-          version: issue.fields.fixVersions.length === 0 ? 'no version assigned' : issue.fields.fixVersions[0].name,
-          reviews: labels,
-          story_points: issue.fields.customfield_10124,
-          severity: severity,
-          priority: issue.fields.priority.name,
-          sprints: sprints,
-          link: `https://${process.env.JIRA_HOST}/browse/${issue.key}`
-        })
+//         issues.push({
+//           type: issue.fields.issuetype.name,
+//           key: issue.key,
+//           description: issue.fields.description,
+//           summary: issue.fields.summary,
+//           assignee: assignee,
+//           status: status,
+//           component: component,
+//           commit: issue.fields.customfield_10000.includes('pullrequest') ? true : false,
+//           version: issue.fields.fixVersions.length === 0 ? 'no version assigned' : issue.fields.fixVersions[0].name,
+//           reviews: labels,
+//           story_points: issue.fields.customfield_10124,
+//           severity: severity,
+//           priority: issue.fields.priority.name,
+//           sprints: sprints,
+//           link: `https://${process.env.JIRA_HOST}/browse/${issue.key}`
+//         })
 
-        const userAdded = users.some(user => user.name === assignee)
-        if(!userAdded) {
-          users.push({name: assignee})
-        }
-      }
-    }
+//         const userAdded = users.some(user => user.name === assignee)
+//         if(!userAdded) {
+//           users.push({name: assignee})
+//         }
+//       }
+//     }
 
-    forLoop()
+//     forLoop()
     
-    callback(undefined, issues,users)
-  } catch (error) {
-    callback(error, undefined)
-  }
-}
+//     callback(undefined, issues,users)
+//   } catch (error) {
+//     callback(error, undefined)
+//   }
+// }
 
-module.exports = { getAllBoards, getSprints, getIssuesFromSprint, getAllBugs }
+module.exports = { getAllBoards, getSprints, getAllBugs, readJiraCards }
