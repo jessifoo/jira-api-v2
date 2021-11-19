@@ -51,11 +51,13 @@ const getAllBugsReadFormat = async (callback) => {
 
 // get all open issues on the bug board 
 // **** and key=NV-3321
+
+// project in (ADM, FT, SU) AND text ~ "Reported by" AND "Target[Select List (multiple choices)]" = "Freedom Friend" and type = Bug and (creator = "Deep Clone for Jira" or "Reference Ticket Number[Labels]" is not EMPTY) ORDER BY created DESC
 const getAllBugs = async (target, callback) => {
   try {
     let listOfIssues = []
     jira.search.search({
-        jql: `project in ("Web Dev","Feature Team",SUP2) and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and (creator = "Deep Clone for Jira" or "Reference Ticket Number[Labels]" is not EMPTY) ORDER BY created DESC`,
+        jql: `project in ("Web Dev","Feature Team",SUP2) AND text ~ "Reported by" and "Target[Select List (multiple choices)]" IN ("${target}") and type = Bug and (creator = "Deep Clone for Jira" or "Reference Ticket Number[Labels]" is not EMPTY) ORDER BY created DESC`,
         maxResults: 1000
     }, (error, result)  => {
         if (error) throw error;         
