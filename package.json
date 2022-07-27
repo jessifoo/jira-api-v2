@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js -e js,hbs"
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js -e js,hbs",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +21,8 @@
     "node-fetch": "^2.6.7",
     "path": "^0.12.7",
     "psl": "^1.8.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
@@ -27,5 +30,6 @@
   },
   "engines": {
     "node": "14.17.5"
-  }
+  },
+  "snyk": true
 }
