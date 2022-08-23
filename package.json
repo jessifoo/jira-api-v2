@@ -22,7 +22,7 @@
     "path": "^0.12.7",
     "psl": "^1.9.0",
     "request": "^2.88.2",
-    "@snyk/protect": "latest"
+    "@snyk/protect": "1.982.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
